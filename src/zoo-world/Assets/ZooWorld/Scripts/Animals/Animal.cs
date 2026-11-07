@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
+using Zenject;
 using ZooWorld.Animals.Movement;
+using ZooWorld.Simulation;
 
 namespace ZooWorld.Animals
 {
@@ -11,6 +13,7 @@ namespace ZooWorld.Animals
     [SerializeField] private Transform _visual;
 
     private Rigidbody _body;
+    private FoodChain _foodChain;
 
     public Transform Visual => _visual;
     public AnimalDefinition Definition { get; private set; }
@@ -20,6 +23,13 @@ namespace ZooWorld.Animals
     public bool IsAlive { get; private set; }
 
     public event Action Died;
+    public event Action Ate;
+
+    [Inject]
+    public void Construct(FoodChain foodChain)
+    {
+      _foodChain = foodChain;
+    }
 
     public void Initialize(AnimalDefinition definition, long spawnId)
     {
@@ -76,6 +86,17 @@ namespace ZooWorld.Animals
     private void Awake()
     {
       CacheBody();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+      if (collision.gameObject.TryGetComponent<Animal>(out var other))
+        _foodChain.ResolveContact(this, other);
+    }
+
+    internal void NotifyAte()
+    {
+      Ate?.Invoke();
     }
 
     private void CacheBody()

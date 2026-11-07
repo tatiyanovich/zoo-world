@@ -34,6 +34,8 @@ namespace ZooWorld.Composition
       Container.Bind<ArenaBounds>().FromInstance(bounds);
       Container.Bind<AnimalCatalog>().FromInstance(_animalCatalog);
       Container.Bind<SimulationSettings>().FromInstance(_simulationSettings);
+      Container.Bind<DeathStatistics>().AsSingle();
+      Container.Bind<FoodChain>().AsSingle();
       Container.Bind<IAnimalFactory>().To<AnimalFactory>().AsSingle();
       Container.BindInterfacesAndSelfTo<AnimalSpawner>().AsSingle();
     }
