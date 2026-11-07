@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.svermeulen.extenject": {
+      "version": "https://github.com/Mathijs-Bakker/Extenject.git?path=UnityProject/Assets/Plugins/Zenject#9dca4e046a1498e574f681ca6139bbbeaa8e5ba0",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "9dca4e046a1498e574f681ca6139bbbeaa8e5ba0"
+    },
     "com.unity.ext.nunit": {
       "version": "2.0.5",
       "depth": 1,

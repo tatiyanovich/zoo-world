@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "com.svermeulen.extenject": "https://github.com/Mathijs-Bakker/Extenject.git?path=UnityProject/Assets/Plugins/Zenject#9dca4e046a1498e574f681ca6139bbbeaa8e5ba0",
+    "com.unity.test-framework": "1.6.0",
+    "com.unity.ugui": "2.0.0",
     "com.unity.modules.accessibility": "1.0.0",
     "com.unity.modules.adaptiveperformance": "1.0.0",
     "com.unity.modules.ai": "1.0.0",
@@ -33,8 +36,6 @@
     "com.unity.modules.video": "1.0.0",
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
-    "com.unity.modules.xr": "1.0.0",
-    "com.unity.test-framework": "1.6.0",
-    "com.unity.ugui": "2.0.0"
+    "com.unity.modules.xr": "1.0.0"
   }
 }
