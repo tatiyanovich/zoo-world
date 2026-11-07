@@ -45,6 +45,29 @@ namespace ZooWorld.Simulation
       return direction.normalized;
     }
 
+    public Vector3 GetRandomPosition(float radius, IRandomSource random)
+    {
+      Refresh();
+      var bottomLeft = Intersect(_left, _bottom, radius);
+      var bottomRight = Intersect(_right, _bottom, radius);
+      var topLeft = Intersect(_left, _top, radius);
+      var topRight = Intersect(_right, _top, radius);
+      var x = random.Range(0f, 1f);
+      var y = random.Range(0f, 1f);
+      return Vector3.Lerp(Vector3.Lerp(bottomLeft, bottomRight, x), Vector3.Lerp(topLeft, topRight, x), y);
+    }
+
+    private static Vector3 Intersect(Plane first, Plane second, float inset)
+    {
+      var a = first.normal;
+      var b = second.normal;
+      var firstOffset = inset - first.distance;
+      var secondOffset = inset - second.distance;
+      var determinant = a.x * b.z - a.z * b.x;
+      return new Vector3((firstOffset * b.z - a.z * secondOffset) / determinant, 0f,
+        (a.x * secondOffset - firstOffset * b.x) / determinant);
+    }
+
     private void Refresh()
     {
       var projection = _camera.projectionMatrix;

@@ -152,6 +152,7 @@ MonoBehaviour:
   _worldCamera: {fileID: 923029082}
   _animalsRoot: {fileID: 1353323686}
   _animalCatalog: {fileID: 11400000, guid: c9f8c18a020f5e6428aa7bd7429c7358, type: 2}
+  _simulationSettings: {fileID: 11400000, guid: 3e88484987f504644b707a205d3166ae, type: 2}
 --- !u!114 &61174755
 MonoBehaviour:
   m_ObjectHideFlags: 0
