@@ -5,7 +5,7 @@ namespace ZooWorld.Animals.Movement
 {
   [DisallowMultipleComponent]
   [RequireComponent(typeof(Animal), typeof(WanderDirection))]
-  public sealed class LinearMovement : MonoBehaviour
+  public class LinearMovement : MonoBehaviour
   {
     [SerializeField] private float _speed = 2f;
     [SerializeField] private float _acceleration = 8f;
@@ -24,11 +24,7 @@ namespace ZooWorld.Animals.Movement
         || _speed <= 0f || _acceleration <= 0f || _contactRecovery < 0f)
         throw new InvalidOperationException($"{name}: positive speed, acceleration and nonnegative contact recovery are required.");
 
-      var direction = GetComponent<WanderDirection>();
-      if (direction == null)
-        throw new InvalidOperationException($"{name}: WanderDirection is required.");
-
-      direction.ValidateConfiguration();
+      GetComponent<WanderDirection>().ValidateConfiguration();
     }
 
     private void Awake()

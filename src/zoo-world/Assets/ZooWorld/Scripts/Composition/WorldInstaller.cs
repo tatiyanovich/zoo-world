@@ -6,7 +6,7 @@ using ZooWorld.Simulation;
 
 namespace ZooWorld.Composition
 {
-  public sealed class WorldInstaller : MonoInstaller
+  public class WorldInstaller : MonoInstaller
   {
     [SerializeField] private Camera _worldCamera;
     [SerializeField] private Transform _animalsRoot;
@@ -14,11 +14,8 @@ namespace ZooWorld.Composition
 
     public override void InstallBindings()
     {
-      if (_worldCamera == null || _animalsRoot == null)
-        throw new InvalidOperationException("World requires a camera and an animals root.");
-
-      if (_animalCatalog == null)
-        throw new InvalidOperationException("World requires an animal catalog.");
+      if (_worldCamera == null || _animalsRoot == null || _animalCatalog == null)
+        throw new InvalidOperationException("World requires a camera, an animals root and an animal catalog.");
 
       _animalCatalog.Validate();
 

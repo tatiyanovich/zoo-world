@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace ZooWorld.Simulation
 {
-  public sealed class ArenaBounds
+  public class ArenaBounds
   {
     private readonly Camera _camera;
     private readonly Plane _ground = new(Vector3.up, Vector3.zero);
@@ -27,17 +27,11 @@ namespace ZooWorld.Simulation
 
     public ArenaBounds(Camera camera)
     {
-      if (camera == null)
-        throw new ArgumentNullException(nameof(camera));
-
       _camera = camera;
     }
 
     public bool Contains(Vector3 position, float radius, float margin = 0f)
     {
-      if (radius < 0f || margin < 0f || !float.IsFinite(radius) || !float.IsFinite(margin))
-        throw new ArgumentOutOfRangeException(nameof(radius), "Radius and margin must be finite and nonnegative.");
-
       Refresh();
       var inset = radius + margin;
       return _left.GetDistanceToPoint(position) >= inset && _right.GetDistanceToPoint(position) >= inset

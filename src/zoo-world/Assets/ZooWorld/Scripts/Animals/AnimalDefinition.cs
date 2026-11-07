@@ -4,7 +4,7 @@ using UnityEngine;
 namespace ZooWorld.Animals
 {
   [CreateAssetMenu(menuName = "Zoo World/Animal Definition")]
-  public sealed class AnimalDefinition : ScriptableObject
+  public class AnimalDefinition : ScriptableObject
   {
     [SerializeField] private AnimalRole _role;
     [SerializeField] private Animal _prefab;

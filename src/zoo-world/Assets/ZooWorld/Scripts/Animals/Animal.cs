@@ -6,7 +6,7 @@ namespace ZooWorld.Animals
 {
   [DisallowMultipleComponent]
   [RequireComponent(typeof(Rigidbody), typeof(Collider))]
-  public sealed class Animal : MonoBehaviour
+  public class Animal : MonoBehaviour
   {
     [SerializeField] private Transform _visual;
 
@@ -25,14 +25,6 @@ namespace ZooWorld.Animals
       if (gameObject.activeSelf || IsInitialized)
         throw new InvalidOperationException("An animal must be inactive and unprepared before initialization.");
 
-      if (definition == null)
-        throw new ArgumentNullException(nameof(definition));
-
-      if (spawnId <= 0)
-        throw new ArgumentOutOfRangeException(nameof(spawnId), "SpawnId must be positive.");
-
-      definition.Validate();
-      ValidateConfiguration();
       CacheBody();
       _body.linearVelocity = Vector3.zero;
       _body.angularVelocity = Vector3.zero;
@@ -65,9 +57,6 @@ namespace ZooWorld.Animals
       if (body == null || body.isKinematic || body.useGravity || !body.detectCollisions || body.constraints != constraints)
         throw new InvalidOperationException($"{name}: a dynamic Rigidbody constrained to XZ without gravity is required.");
 
-      if (body.mass <= 0f || float.IsNaN(body.mass) || float.IsInfinity(body.mass))
-        throw new InvalidOperationException($"{name}: Rigidbody mass must be finite and positive.");
-
       var colliders = GetComponentsInChildren<Collider>(includeInactive: true);
       if (colliders.Length != 1 || colliders[0].transform != transform || !colliders[0].enabled || colliders[0].isTrigger)
         throw new InvalidOperationException($"{name}: one enabled non-trigger Collider on the root is required.");
@@ -79,12 +68,6 @@ namespace ZooWorld.Animals
     private void Awake()
     {
       CacheBody();
-    }
-
-    private void OnEnable()
-    {
-      if (!IsInitialized || !IsAlive)
-        throw new InvalidOperationException($"{name}: initialize the animal before activation.");
     }
 
     private void CacheBody()

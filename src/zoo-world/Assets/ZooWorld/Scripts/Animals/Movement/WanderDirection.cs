@@ -6,7 +6,7 @@ using ZooWorld.Simulation;
 namespace ZooWorld.Animals.Movement
 {
   [DisallowMultipleComponent]
-  public sealed class WanderDirection : MonoBehaviour
+  public class WanderDirection : MonoBehaviour
   {
     [SerializeField] private float _minimumInterval = 2f;
     [SerializeField] private float _maximumInterval = 4f;
@@ -23,8 +23,8 @@ namespace ZooWorld.Animals.Movement
     [Inject]
     public void Construct(ArenaBounds bounds, IRandomSource random)
     {
-      _bounds = bounds ?? throw new ArgumentNullException(nameof(bounds));
-      _random = random ?? throw new ArgumentNullException(nameof(random));
+      _bounds = bounds;
+      _random = random;
     }
 
     public void Initialize(Vector3 direction)
@@ -33,13 +33,6 @@ namespace ZooWorld.Animals.Movement
         throw new InvalidOperationException("Initialize direction once before activating the animal.");
 
       direction.y = 0f;
-      if (!float.IsFinite(direction.x) || !float.IsFinite(direction.z) || direction.sqrMagnitude < 0.0001f)
-        throw new ArgumentException("A finite nonzero XZ direction is required.", nameof(direction));
-
-      ValidateConfiguration();
-      if (_bounds == null || _random == null)
-        throw new InvalidOperationException("Inject arena bounds and randomness before initialization.");
-
       Direction = direction.normalized;
       _remainingTime = _random.Range(_minimumInterval, _maximumInterval);
       _isInitialized = true;
@@ -76,12 +69,6 @@ namespace ZooWorld.Animals.Movement
       if (!enabled || !float.IsFinite(_minimumInterval) || !float.IsFinite(_maximumInterval)
         || !float.IsFinite(_returnMargin) || _minimumInterval <= 0f || _maximumInterval < _minimumInterval || _returnMargin <= 0f)
         throw new InvalidOperationException($"{name}: positive wander intervals and return margin are required.");
-    }
-
-    private void OnEnable()
-    {
-      if (!_isInitialized)
-        throw new InvalidOperationException($"{name}: initialize direction before activation.");
     }
   }
 }

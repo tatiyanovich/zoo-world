@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ZooWorld.Animals
 {
   [CreateAssetMenu(menuName = "Zoo World/Animal Catalog")]
-  public sealed class AnimalCatalog : ScriptableObject
+  public class AnimalCatalog : ScriptableObject
   {
     [SerializeField] private AnimalDefinition[] _definitions = Array.Empty<AnimalDefinition>();
 

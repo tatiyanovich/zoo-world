@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace ZooWorld.Simulation
 {
-  public sealed class UnityRandomSource : IRandomSource
+  public class UnityRandomSource : IRandomSource
   {
     public float Range(float minimum, float maximum) => Random.Range(minimum, maximum);
 
