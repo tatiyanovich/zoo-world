@@ -2,7 +2,8 @@
   "name": "ZooWorld.Runtime",
   "rootNamespace": "ZooWorld",
   "references": [
-    "Zenject"
+    "Zenject",
+    "UnityEngine.UI"
   ],
   "overrideReferences": true,
   "precompiledReferences": [

@@ -3,6 +3,7 @@ using UnityEngine;
 using Zenject;
 using ZooWorld.Animals;
 using ZooWorld.Simulation;
+using ZooWorld.UI;
 
 namespace ZooWorld.Composition
 {
@@ -12,20 +13,26 @@ namespace ZooWorld.Composition
     [SerializeField] private Transform _animalsRoot;
     [SerializeField] private AnimalCatalog _animalCatalog;
     [SerializeField] private SimulationSettings _simulationSettings;
+    [SerializeField] private DeathCounterView _deathCounterView;
 
     public override void InstallBindings()
     {
-      if (_worldCamera == null || _animalsRoot == null || _animalCatalog == null || _simulationSettings == null)
+      if (_worldCamera == null || _animalsRoot == null || _animalCatalog == null ||
+        _simulationSettings == null || _deathCounterView == null)
         throw new InvalidOperationException(
-          "World requires a camera, an animals root, an animal catalog and simulation settings.");
+          "World requires a camera, an animals root, an animal catalog, simulation settings and death counters.");
 
       _animalCatalog.Validate();
       _simulationSettings.Validate();
+      _deathCounterView.ValidateConfiguration();
       var bounds = new ArenaBounds(_worldCamera);
       foreach (var definition in _animalCatalog.Definitions)
       {
         if (!bounds.Contains(bounds.Center, definition.SpawnRadius))
           throw new InvalidOperationException($"{definition.name}: the animal must fit inside the arena.");
+
+        if (definition.Prefab.TryGetComponent<TastyLabel>(out var label))
+          label.ValidateConfiguration();
       }
 
       Container.Bind<Camera>().FromInstance(_worldCamera);
