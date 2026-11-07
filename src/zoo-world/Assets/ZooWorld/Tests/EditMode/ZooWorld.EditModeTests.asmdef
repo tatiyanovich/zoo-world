@@ -1,0 +1,13 @@
+{
+  "name": "ZooWorld.EditModeTests",
+  "rootNamespace": "ZooWorld.Tests",
+  "references": [
+    "ZooWorld.Runtime"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ]
+}
