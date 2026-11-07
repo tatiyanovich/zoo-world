@@ -12,6 +12,7 @@ namespace ZooWorld.Animals
 
     private Rigidbody _body;
 
+    public Transform Visual => _visual;
     public AnimalDefinition Definition { get; private set; }
     public AnimalRole Role => Definition.Role;
     public long SpawnId { get; private set; }
@@ -61,8 +62,15 @@ namespace ZooWorld.Animals
       if (colliders.Length != 1 || colliders[0].transform != transform || !colliders[0].enabled || colliders[0].isTrigger)
         throw new InvalidOperationException($"{name}: one enabled non-trigger Collider on the root is required.");
 
-      if (TryGetComponent<LinearMovement>(out var movement))
-        movement.ValidateConfiguration();
+      var linear = GetComponent<LinearMovement>();
+      var jump = GetComponent<JumpMovement>();
+      if ((linear == null) == (jump == null))
+        throw new InvalidOperationException($"{name}: exactly one movement driver is required.");
+
+      if (linear != null)
+        linear.ValidateConfiguration();
+      else
+        jump.ValidateConfiguration();
     }
 
     private void Awake()
