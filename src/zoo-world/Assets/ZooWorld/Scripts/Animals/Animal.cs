@@ -72,15 +72,11 @@ namespace ZooWorld.Animals
       if (colliders.Length != 1 || colliders[0].transform != transform || !colliders[0].enabled || colliders[0].isTrigger)
         throw new InvalidOperationException($"{name}: one enabled non-trigger Collider on the root is required.");
 
-      var linear = GetComponent<LinearMovement>();
-      var jump = GetComponent<JumpMovement>();
-      if ((linear == null) == (jump == null))
+      var movements = GetComponents<IAnimalMovement>();
+      if (movements.Length != 1)
         throw new InvalidOperationException($"{name}: exactly one movement driver is required.");
 
-      if (linear != null)
-        linear.ValidateConfiguration();
-      else
-        jump.ValidateConfiguration();
+      movements[0].ValidateConfiguration();
     }
 
     private void Awake()

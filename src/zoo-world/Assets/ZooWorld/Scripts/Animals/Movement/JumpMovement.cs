@@ -5,7 +5,7 @@ namespace ZooWorld.Animals.Movement
 {
   [DisallowMultipleComponent]
   [RequireComponent(typeof(Animal), typeof(AnimalMotor))]
-  public class JumpMovement : MonoBehaviour
+  public class JumpMovement : MonoBehaviour, IAnimalMovement
   {
     [SerializeField] private float _interval = 1.2f;
     [SerializeField] private float _duration = 0.4f;

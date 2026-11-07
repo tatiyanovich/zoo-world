@@ -31,7 +31,11 @@ namespace ZooWorld.Composition
         if (!bounds.Contains(bounds.Center, definition.SpawnRadius))
           throw new InvalidOperationException($"{definition.name}: the animal must fit inside the arena.");
 
-        if (definition.Prefab.TryGetComponent<TastyLabel>(out var label))
+        var hasLabel = definition.Prefab.TryGetComponent<TastyLabel>(out var label);
+        if (definition.Role == AnimalRole.Predator && !hasLabel)
+          throw new InvalidOperationException($"{definition.name}: a predator requires a TastyLabel.");
+
+        if (hasLabel)
           label.ValidateConfiguration();
       }
 

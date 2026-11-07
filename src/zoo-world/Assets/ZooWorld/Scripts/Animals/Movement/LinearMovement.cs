@@ -5,7 +5,7 @@ namespace ZooWorld.Animals.Movement
 {
   [DisallowMultipleComponent]
   [RequireComponent(typeof(Animal), typeof(AnimalMotor))]
-  public class LinearMovement : MonoBehaviour
+  public class LinearMovement : MonoBehaviour, IAnimalMovement
   {
     [SerializeField] private float _speed = 2f;
     [SerializeField] private float _acceleration = 8f;

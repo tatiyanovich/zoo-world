@@ -25,8 +25,10 @@ namespace ZooWorld.UI
 
     public void ValidateConfiguration()
     {
-      if (_label == null || _label == transform || !_label.IsChildOf(transform) || _duration <= 0f || _offset < 0f)
-        throw new InvalidOperationException($"{name}: a child label, a positive duration and a nonnegative offset are required.");
+      if (!enabled || _label == null || _label == transform || !_label.IsChildOf(transform)
+        || _duration <= 0f || _offset < 0f)
+        throw new InvalidOperationException(
+          $"{name}: an enabled TastyLabel, a child label, a positive duration and a nonnegative offset are required.");
     }
 
     private void Awake()

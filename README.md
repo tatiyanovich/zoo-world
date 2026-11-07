@@ -16,6 +16,10 @@ Paths below are relative to `src/zoo-world/Assets/ZooWorld`. The diagram shows s
 
 ![Architecture](media/architecture.svg)
 
-To add a species, compose a prefab from `Animal`, `WanderDirection`, `AnimalMotor` and one movement component; create an `AnimalDefinition` and add it to `AnimalCatalog`. Food role and movement are independent; shared logic has no species-specific branches. Configuration is validated once by `Scripts/Composition/WorldInstaller` before simulation.
+To add a species, compose an inactive prefab from `Animal`, a separate child Visual, `Rigidbody`, one root collider, `WanderDirection`, `AnimalMotor` and exactly one enabled movement component implementing `IAnimalMovement`. Each movement validates its own settings through `ValidateConfiguration`; a new movement needs no changes to `Animal`, the factory or the installer. Create an `AnimalDefinition` and add it to `AnimalCatalog`. Food role and movement are independent.
+
+For a Predator, also add an enabled `TastyLabel` on the root and assign its child World Space Canvas with the `Tasty!` text, as in the Snake prefab. Configuration is validated once by `Scripts/Composition/WorldInstaller` before simulation.
+
+Spawning tries up to 12 positions for a free spot. If all are occupied, it uses the last position, allowing overlap and an immediate collision. This keeps spawning on schedule without a population limit.
 
 Regression tests live in `Tests/EditMode` and `Tests/PlayMode`.

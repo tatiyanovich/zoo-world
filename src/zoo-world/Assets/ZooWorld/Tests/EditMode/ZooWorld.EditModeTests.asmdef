@@ -2,12 +2,19 @@
   "name": "ZooWorld.EditModeTests",
   "rootNamespace": "ZooWorld.Tests",
   "references": [
-    "ZooWorld.Runtime"
+    "ZooWorld.Runtime",
+    "Zenject",
+    "UnityEngine.UI"
   ],
   "includePlatforms": [
     "Editor"
   ],
   "optionalUnityReferences": [
     "TestAssemblies"
+  ],
+  "overrideReferences": true,
+  "precompiledReferences": [
+    "nunit.framework.dll",
+    "Zenject-usage.dll"
   ]
 }

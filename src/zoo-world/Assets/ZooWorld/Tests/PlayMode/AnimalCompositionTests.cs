@@ -3,11 +3,13 @@ using System.Collections;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
 using Zenject;
 using ZooWorld.Animals;
 using ZooWorld.Animals.Movement;
+using ZooWorld.Composition;
 using ZooWorld.Simulation;
 using ZooWorld.UI;
 using Object = UnityEngine.Object;
@@ -20,6 +22,57 @@ namespace ZooWorld.Tests
     private Animal _template;
     private AnimalDefinition _predator;
     private AnimalDefinition _prey;
+    private AnimalCatalog _catalog;
+    private Scene _worldScene;
+
+    [UnityTest]
+    public IEnumerator ThirdMovementUsesExistingInstallerAndFactory()
+    {
+      yield return SceneManager.LoadSceneAsync("Assets/ZooWorld/Scenes/World.unity");
+      _worldScene = SceneManager.GetActiveScene();
+      _root = new GameObject("ThirdMovementTest");
+      _root.SetActive(false);
+      var source = AssetDatabase.LoadAssetAtPath<AnimalDefinition>(
+        "Assets/ZooWorld/Settings/Animals/SnakeDefinition.asset");
+      _template = Object.Instantiate(source.Prefab);
+      Object.DestroyImmediate(_template.GetComponent<LinearMovement>());
+      _template.gameObject.AddComponent<SidewaysMovement>();
+      _predator = Object.Instantiate(source);
+      var definitionSettings = new SerializedObject(_predator);
+      definitionSettings.FindProperty("_prefab").objectReferenceValue = _template;
+      definitionSettings.ApplyModifiedPropertiesWithoutUndo();
+      _catalog = ScriptableObject.CreateInstance<AnimalCatalog>();
+      var catalogSettings = new SerializedObject(_catalog);
+      var definitions = catalogSettings.FindProperty("_definitions");
+      definitions.arraySize = 1;
+      definitions.GetArrayElementAtIndex(0).objectReferenceValue = _predator;
+      catalogSettings.ApplyModifiedPropertiesWithoutUndo();
+      var installer = _root.AddComponent<WorldInstaller>();
+      EditorUtility.CopySerialized(Object.FindFirstObjectByType<WorldInstaller>(), installer);
+      var installerSettings = new SerializedObject(installer);
+      installerSettings.FindProperty("_animalCatalog").objectReferenceValue = _catalog;
+      installerSettings.FindProperty("_animalsRoot").objectReferenceValue = _root.transform;
+      installerSettings.ApplyModifiedPropertiesWithoutUndo();
+      var container = new DiContainer();
+      container.Inject(installer);
+      installer.InstallBindings();
+      _root.SetActive(true);
+      var factory = container.Resolve<IAnimalFactory>();
+      var animal = factory.Create(container.Resolve<AnimalCatalog>().Definitions[0], Vector3.zero, Vector3.forward);
+      Assert.That(animal.GetComponents<IAnimalMovement>(), Has.Length.EqualTo(1));
+      Assert.That(animal.GetComponent<SidewaysMovement>(), Is.Not.Null);
+      Assert.That(animal.IsInitialized && animal.IsAlive, Is.True);
+      var body = animal.GetComponent<Rigidbody>();
+      var origin = body.position;
+      for (var step = 0; step < 30; step++)
+        yield return new WaitForFixedUpdate();
+
+      var displacement = body.position - origin;
+      Assert.That(displacement.magnitude, Is.GreaterThan(0.9f));
+      Assert.That(Vector3.Dot(displacement.normalized, Vector3.forward), Is.GreaterThan(0.99f));
+      Assert.That(Mathf.Abs(Vector3.Dot(body.rotation * Vector3.forward, displacement.normalized)), Is.LessThan(0.01f));
+      Assert.That(animal.GetComponent<TastyLabel>().enabled, Is.True);
+    }
 
     [UnityTest]
     public IEnumerator JumpingPredatorEatsLinearPreyAndShowsItsOwnLabel()
@@ -102,10 +155,17 @@ namespace ZooWorld.Tests
     public IEnumerator TearDown()
     {
       Object.Destroy(_root);
-      Object.Destroy(_template.gameObject);
+      if (_template != null)
+        Object.Destroy(_template.gameObject);
       Object.Destroy(_predator);
       Object.Destroy(_prey);
+      Object.Destroy(_catalog);
       yield return null;
+      if (_worldScene.IsValid() && _worldScene.isLoaded)
+      {
+        SceneManager.SetActiveScene(SceneManager.CreateScene("CompositionTestCleanup"));
+        yield return SceneManager.UnloadSceneAsync(_worldScene);
+      }
       LogAssert.NoUnexpectedReceived();
     }
 
