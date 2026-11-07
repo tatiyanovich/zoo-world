@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="700" viewBox="0 0 1100 700" role="img" aria-labelledby="title desc">
+<title id="title">Zoo World architecture</title><desc id="desc">Scene-scoped Zenject composition, animal spawning and components, collision resolution and UI events.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#64748b"/></marker></defs>
+<rect width="1100" height="700" rx="18" fill="#f8fafc"/>
+<g font-family="Segoe UI,Arial,sans-serif" fill="#172a3a">
+<text x="28" y="34" font-size="14" font-weight="600" fill="#516174">SCENE WIRING</text>
+<rect x="28" y="54" width="250" height="110" rx="10" fill="#edf0fa" stroke="#94a3b8"/>
+<text x="44" y="78" font-size="13" font-weight="400" fill="#516174">Scenes/World.unity</text>
+<text x="44" y="105" font-size="20" font-weight="600" fill="#172a3a">SceneContext</text>
+<text x="44" y="132" font-size="16" font-weight="400" fill="#172a3a">One scene, one container</text>
+<rect x="348" y="54" width="340" height="110" rx="10" fill="#edf0fa" stroke="#94a3b8"/>
+<text x="364" y="78" font-size="13" font-weight="400" fill="#516174">Scripts/Composition/</text>
+<text x="364" y="105" font-size="20" font-weight="600" fill="#172a3a">WorldInstaller</text>
+<text x="364" y="132" font-size="16" font-weight="400" fill="#172a3a">Validate content + bind services</text>
+<rect x="758" y="54" width="314" height="110" rx="10" fill="#fff3dc" stroke="#94a3b8"/>
+<text x="774" y="78" font-size="13" font-weight="400" fill="#516174">Settings/</text>
+<text x="774" y="105" font-size="20" font-weight="600" fill="#172a3a">Catalog + definitions</text>
+<text x="774" y="132" font-size="16" font-weight="400" fill="#172a3a">SimulationSettings + prefab links</text>
+<path d="M278 109H348" fill="none" stroke="#64748b" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<path d="M758 109H688" fill="none" stroke="#64748b" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<path d="M360 164V221H138V236" fill="none" stroke="#64748b" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<text x="28" y="204" font-size="14" font-weight="600" fill="#516174">RUNTIME FLOW</text>
+<text x="380" y="204" font-size="15" font-weight="400" fill="#516174">Zenject injects scene services and prefab components</text>
+<rect x="28" y="236" width="220" height="130" rx="10" fill="#e9f3ed" stroke="#94a3b8"/>
+<text x="44" y="260" font-size="13" font-weight="400" fill="#516174">Scripts/Simulation/</text>
+<text x="44" y="287" font-size="20" font-weight="600" fill="#172a3a">AnimalSpawner</text>
+<text x="44" y="314" font-size="16" font-weight="400" fill="#172a3a">Select a definition</text>
+<text x="44" y="339" font-size="16" font-weight="400" fill="#172a3a">Spawn every 1–2 seconds</text>
+<rect x="318" y="236" width="240" height="130" rx="10" fill="#e9f3ed" stroke="#94a3b8"/>
+<text x="334" y="260" font-size="13" font-weight="400" fill="#516174">Scripts/Animals/</text>
+<text x="334" y="287" font-size="20" font-weight="600" fill="#172a3a">AnimalFactory</text>
+<text x="334" y="314" font-size="16" font-weight="400" fill="#172a3a">Instantiate inactive prefab</text>
+<text x="334" y="339" font-size="16" font-weight="400" fill="#172a3a">Inject → initialize → activate</text>
+<rect x="628" y="236" width="444" height="240" rx="10" fill="#e9f3ed" stroke="#94a3b8"/>
+<text x="644" y="260" font-size="13" font-weight="400" fill="#516174">Prefabs/Animals/ + Scripts/Animals/</text>
+<text x="644" y="287" font-size="20" font-weight="600" fill="#172a3a">Animal GameObject</text>
+<text x="644" y="314" font-size="16" font-weight="400" fill="#172a3a">Animal: role, SpawnId, lifetime</text>
+<text x="644" y="339" font-size="16" font-weight="400" fill="#172a3a">Movement/:</text>
+<text x="644" y="364" font-size="16" font-weight="400" fill="#172a3a">WanderDirection → movement driver</text>
+<text x="644" y="389" font-size="16" font-weight="400" fill="#172a3a">LinearMovement OR JumpMovement</text>
+<text x="644" y="414" font-size="16" font-weight="400" fill="#172a3a">AnimalMotor → Rigidbody + Collider</text>
+<text x="644" y="439" font-size="16" font-weight="400" fill="#172a3a">Child Visual: independent jump animation</text>
+<path d="M248 300H318" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M558 300H628" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="28" y="411" width="530" height="90" rx="10" fill="#fff3dc" stroke="#94a3b8"/>
+<text x="44" y="435" font-size="13" font-weight="400" fill="#516174">Scripts/Simulation/</text>
+<text x="44" y="462" font-size="20" font-weight="600" fill="#172a3a">ArenaBounds + IRandomSource</text>
+<path d="M138 411V366" fill="none" stroke="#64748b" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<path d="M558 451H628" fill="none" stroke="#64748b" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
+<rect x="28" y="566" width="220" height="105" rx="10" fill="#e9eefb" stroke="#94a3b8"/>
+<text x="44" y="590" font-size="13" font-weight="400" fill="#516174">Scripts/UI/</text>
+<text x="44" y="617" font-size="20" font-weight="600" fill="#172a3a">DeathCounterView</text>
+<text x="44" y="644" font-size="16" font-weight="400" fill="#172a3a">uGUI death counters</text>
+<rect x="318" y="566" width="240" height="105" rx="10" fill="#e9f3ed" stroke="#94a3b8"/>
+<text x="334" y="590" font-size="13" font-weight="400" fill="#516174">Scripts/Simulation/</text>
+<text x="334" y="617" font-size="20" font-weight="600" fill="#172a3a">DeathStatistics</text>
+<text x="334" y="644" font-size="16" font-weight="400" fill="#172a3a">Count each death once</text>
+<rect x="628" y="566" width="240" height="105" rx="10" fill="#e9f3ed" stroke="#94a3b8"/>
+<text x="644" y="590" font-size="13" font-weight="400" fill="#516174">Scripts/Simulation/</text>
+<text x="644" y="617" font-size="20" font-weight="600" fill="#172a3a">FoodChain + Rules</text>
+<text x="644" y="644" font-size="16" font-weight="400" fill="#172a3a">Choose victim → TryDie</text>
+<rect x="908" y="566" width="164" height="105" rx="10" fill="#e9eefb" stroke="#94a3b8"/>
+<text x="924" y="590" font-size="13" font-weight="400" fill="#516174">Scripts/UI/</text>
+<text x="924" y="617" font-size="20" font-weight="600" fill="#172a3a">TastyLabel</text>
+<text x="924" y="644" font-size="16" font-weight="400" fill="#172a3a">World-space label</text>
+<path d="M748 476V566" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="761" y="530" font-size="15" font-weight="400" fill="#172a3a">collision</text>
+<path d="M628 618H558" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="571" y="603" font-size="14" font-weight="400" fill="#172a3a">death</text>
+<path d="M318 618H248" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="255" y="603" font-size="14" font-weight="400" fill="#172a3a">Changed</text>
+<path d="M868 618H908" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="900" y="547" font-size="15" font-weight="400" fill="#172a3a">Animal.Ate</text>
+<text x="28" y="541" font-size="14" font-weight="400" fill="#516174">Dashed: configuration / dependencies     Solid: calls / events</text>
+</g></svg>

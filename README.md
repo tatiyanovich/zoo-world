@@ -12,50 +12,9 @@ Tests: **Window → General → Test Runner**, then **Run All** in **EditMode** 
 
 ## Architecture
 
-Paths below are relative to `src/zoo-world/Assets/ZooWorld`. Solid arrows show runtime flow; dotted arrows show configuration and injected dependencies.
+Paths below are relative to `src/zoo-world/Assets/ZooWorld`. The diagram shows scene wiring, runtime flow and the components of an animal.
 
-```mermaid
-flowchart TD
-    subgraph setup["Scene and configuration"]
-        World["Scenes/World.unity<br/>SceneContext + WorldInstaller"]
-        Settings["Settings/<br/>AnimalCatalog · AnimalDefinition<br/>SimulationSettings"]
-        Prefabs["Prefabs/Animals/<br/>Frog · Snake"]
-        Settings -.-> World
-        Settings -. "prefab + food role" .-> Prefabs
-    end
-
-    subgraph simulation["Scripts/Simulation"]
-        Spawner["AnimalSpawner<br/>choose species + position every 1–2 s"]
-        Bounds["ArenaBounds · IRandomSource<br/>camera bounds + randomness"]
-        Food["FoodChain + FoodChainRules<br/>resolve contact → one death"]
-        Stats["DeathStatistics"]
-    end
-
-    subgraph animals["Scripts/Animals and Movement/"]
-        Factory["AnimalFactory<br/>instantiate → inject → initialize → activate"]
-        Animal["Animal<br/>role · SpawnId · lifetime"]
-        Movement["WanderDirection → LinearMovement / JumpMovement<br/>AnimalMotor → Rigidbody + Collider<br/>child Visual animates independently"]
-        Animal --- Movement
-    end
-
-    subgraph ui["Scripts/UI"]
-        HUD["DeathCounterView<br/>uGUI counters"]
-        Tasty["TastyLabel<br/>animal's world-space label"]
-    end
-
-    World -. "Composition/WorldInstaller binds scene services" .-> Spawner
-    World -.-> Factory
-    World -.-> Food
-    Settings -.-> Spawner
-    Prefabs -.-> Factory
-    Bounds -.-> Spawner
-    Bounds -.-> Movement
-    Spawner --> Factory --> Animal
-    Animal -- "collision" --> Food
-    Food -- "successful death" --> Stats
-    Stats -- "Changed" --> HUD
-    Food -- "survivor's Animal.Ate" --> Tasty
-```
+![Architecture](media/architecture.svg)
 
 To add a species, compose a prefab from `Animal`, `WanderDirection`, `AnimalMotor` and one movement component; create an `AnimalDefinition` and add it to `AnimalCatalog`. Food role and movement are independent; shared logic has no species-specific branches. Configuration is validated once by `Scripts/Composition/WorldInstaller` before simulation.
 
