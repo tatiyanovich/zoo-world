@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.svermeulen.extenject": "https://github.com/Mathijs-Bakker/Extenject.git?path=UnityProject/Assets/Plugins/Zenject#9dca4e046a1498e574f681ca6139bbbeaa8e5ba0",
+    "com.svermeulen.extenject": "file:com.svermeulen.extenject-0.0.1.tgz",
     "com.unity.test-framework": "1.6.0",
     "com.unity.ugui": "2.0.0",
     "com.unity.modules.accessibility": "1.0.0",
