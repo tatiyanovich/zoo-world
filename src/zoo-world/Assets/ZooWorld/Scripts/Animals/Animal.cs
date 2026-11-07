@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using ZooWorld.Animals.Movement;
 
 namespace ZooWorld.Animals
 {
@@ -70,6 +71,9 @@ namespace ZooWorld.Animals
       var colliders = GetComponentsInChildren<Collider>(includeInactive: true);
       if (colliders.Length != 1 || colliders[0].transform != transform || !colliders[0].enabled || colliders[0].isTrigger)
         throw new InvalidOperationException($"{name}: one enabled non-trigger Collider on the root is required.");
+
+      if (TryGetComponent<LinearMovement>(out var movement))
+        movement.ValidateConfiguration();
     }
 
     private void Awake()

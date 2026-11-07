@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using Zenject;
 using ZooWorld.Animals;
+using ZooWorld.Simulation;
 
 namespace ZooWorld.Composition
 {
@@ -23,6 +24,8 @@ namespace ZooWorld.Composition
 
       Container.Bind<Camera>().FromInstance(_worldCamera);
       Container.Bind<Transform>().FromInstance(_animalsRoot);
+      Container.Bind<IRandomSource>().To<UnityRandomSource>().AsSingle();
+      Container.Bind<ArenaBounds>().AsSingle();
     }
   }
 }
