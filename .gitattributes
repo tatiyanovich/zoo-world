@@ -1,0 +1,41 @@
+* text=auto eol=lf
+
+*.cs text diff=csharp
+*.json text
+*.asmdef text
+*.asmref text
+*.unity text whitespace=-blank-at-eol
+*.prefab text whitespace=-blank-at-eol
+*.asset text whitespace=-blank-at-eol
+*.meta text whitespace=-blank-at-eol
+*.mat text whitespace=-blank-at-eol
+*.anim text whitespace=-blank-at-eol
+*.controller text whitespace=-blank-at-eol
+*.overrideController text whitespace=-blank-at-eol
+*.physicMaterial text whitespace=-blank-at-eol
+*.physicsMaterial2D text whitespace=-blank-at-eol
+*.renderTexture text whitespace=-blank-at-eol
+*.lighting text whitespace=-blank-at-eol
+*.guiskin text whitespace=-blank-at-eol
+*.terrainlayer text whitespace=-blank-at-eol
+*.md text
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.bmp binary
+*.tga binary
+*.psd binary
+*.exr binary
+*.hdr binary
+*.fbx binary
+*.blend binary
+*.wav binary
+*.mp3 binary
+*.ogg binary
+*.mp4 binary
+*.ttf binary
+*.otf binary
+*.dll binary
+*.unitypackage binary
